@@ -3,7 +3,7 @@
 
     tasks:
       - name: excuting EMSfile
-        command: sudo sh /home/ubuntu/EMS.sh
+        command: sudo sh EMS.sh
         ignore_errors: yes
         register: result
       - debug:
