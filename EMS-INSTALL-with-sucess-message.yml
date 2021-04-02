@@ -1,11 +1,10 @@
 ---
   - hosts: all
     become: yes
-    become_method: sudo
 
     tasks:
       - name: excuting EMSfile
-        command: sudo sh EMS.sh
+        command: sudo ./EMS.sh
         ignore_errors: yes
         register: result
       - debug:
