@@ -1,0 +1,10 @@
+---
+  - hosts: all
+
+    tasks:
+      - name: excuting EMS.sh
+        shell: sudo kill -9 `ps -eaf|grep -i tibemsd|grep -v grep|awk '{print $2}'`
+        ignore_errors: yes
+        register: result
+      - debug:
+          var: result

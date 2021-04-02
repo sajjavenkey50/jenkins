@@ -1,0 +1,10 @@
+---
+  - hosts: all
+
+    tasks:
+      - name: excuting EMS.sh
+        shell: cd /home/ubuntu/tibco1/ems/8.4/bin && sudo ./tibemsd64 -config /home/ubuntu/tibco1/ems/8.4/samples/config/tibemsd.conf &
+        ignore_errors: yes
+        register: result
+      - debug:
+          var: result
