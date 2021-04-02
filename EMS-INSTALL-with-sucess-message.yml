@@ -1,10 +1,11 @@
 ---
   - hosts: all
     become: yes
-
+    become_user: ubuntu
+    
     tasks:
       - name: excuting EMSfile
-        command: ./EMS.sh
+        shell: ./EMS.sh
         ignore_errors: yes
         register: result
       - debug:
