@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><TIBCOInstallerFeatures>
+
+	<productDef buildNumber="V9.4" buildType="release" id="bstudio" name="bstudio" productType="contributor-servicepack" targetPlatform="linux/x86_64" universalinstallerrelease="3.6.5" universalinstallerversion="V2" version="4.0.0"/>
+
+	<customVariables>
+
+    <variable name="eclipse.p2.repos" value="${tibco.home}/p2repos"/>
+    <variable name="tibco.tools.dir" value="${tibco.home}/tools"/>
+    <variable name="eclipse.platform.version" value="4.4.1"/>
+    <variable name="studio.product.home.400" value="${tibco.home}/studio/4.0/eclipse"/>
+    
+    <localVariable name="studio.core.version" value="4.1.200.002"/>
+    
+    <localVariable name="bs.product.repo.target.dir" value="${eclipse.p2.repos}/product_tibco_tbs_product_p2_repo_2.2.0.002"/>
+    
+    <variable name="bs.svn.ius.410" value="com.collabnet.subversion.merge.feature.feature.group,org.tigris.subversion.subclipse.feature.group,org.tigris.subversion.clientadapter.feature.feature.group,org.tigris.subversion.clientadapter.javahl.feature.feature.group,org.tigris.subversion.subclipse.graph.feature.feature.group,org.tigris.subversion.clientadapter.svnkit.feature.feature.group,org.tmatesoft.svnkit.feature.group"/>
+    <variable name="bs.core.install.feature.ius.410" value="com.tibco.xpd.scf.feature.feature.group,com.tibco.xpd.core.feature.feature.group,com.tibco.xpd.service.feature.feature.group,${bs.svn.ius.410},org.dadacoalition.yedit.feature.feature.group"/>
+    </customVariables>
+    
+    <installerFeature name="platform-amx" uid="platform-amx" version="4.1.200" visible="false">
+        <wizardAction class="com.tibco.installer.wizard.action.TIBCOCreateP2AssemblyList" sequence="post-selection">
+        <property variableToSet="tibco.p2.assemblies"/>
+        </wizardAction>
+        <wizardAction class="com.tibco.installer.wizard.action.TIBCOCreateWindowsShortcutWizardAction" sequence="post-install">
+        <condition class="com.tibco.installer.wizard.condition.TIBCOStringComparisonWizardCondition">
+        <property mustBeMet="false"/>
+        <property stringToEvaluate="${skip.scf.win.shortcut}"/>
+        <property stringToCompareAgainst="true"/>
+        <property caseSensitive="true"/>
+        </condition>
+        <property shortcutFolder="TIBCO/${tibco.environment.name}/TIBCO Business Studio 4.0"/>
+        <property shortcutName="Studio for Designers"/>
+        <property shortcutTarget="${studio.product.home.400}/TIBCOBusinessStudio.exe"/>
+        <property shortcutArgs=""/>
+        <property shortcutIcon=""/>
+        <property shortcutWorkingDirectory="${studio.product.home.400}"/>
+        </wizardAction>
+        <wizardAction class="com.tibco.installer.wizard.action.TIBCORemoveWindowsShortcutWizardAction" sequence="post-uninstall">
+        <condition class="com.tibco.installer.wizard.condition.TIBCOStringComparisonWizardCondition">
+        <property mustBeMet="false"/>
+        <property stringToEvaluate="${skip.scf.win.shortcut}"/>
+        <property stringToCompareAgainst="true"/>
+        <property caseSensitive="true"/>
+        </condition>
+        <property shortcutFolder="TIBCO/${tibco.environment.name}/TIBCO Business Studio 4.0"/>
+        <property shortcutName="Studio for Designers"/>
+        </wizardAction>
+        <dependency description="Studio Platform" mustBeInstalled="false" type="feature" uid="bs-core_bstudio" version="4.1.200"/>
+        <postInstallAction description="Installing TIBCO Business Studio using p2 provisioning" sequence="pre-assembly-ref" target="install" taskFile="${tibco.tools.dir}/p2scripts/build.xml">
+        
+        <postInstallActionProperty name="bs.destination.root.dir" value="${tibco.home}"/>
+        <postInstallActionProperty name="product.version" value="${studio.version}"/>
+        <postInstallActionProperty name="product.edition" value="${studio.edition}"/>
+        <postInstallActionProperty name="product.shortVersion" value="4.0"/>
+        <postInstallActionProperty name="bs.product.repo.target.dir" value="$L{bs.product.repo.target.dir}"/>
+        <postInstallActionProperty name="bs.install.feature.ius" value="${bs.core.install.feature.ius.410}"/>
+        <postInstallActionProperty name="bs.p2.tag.install.features" value="Studio Core Features Installation"/>
+        
+        
+        </postInstallAction>
+        <postInstallAction description="Removing TIBCO Business Studio installation" sequence="pre-uninstall-ref" target="uninstall" taskFile="${tibco.tools.dir}/p2scripts/build.xml">
+        
+        <postInstallActionProperty name="bs.destination.root.dir" value="${tibco.home}"/>
+        <postInstallActionProperty name="product.version" value="${studio.version}"/>
+        <postInstallActionProperty name="product.shortVersion" value="4.0"/>
+        
+        <postInstallActionProperty name="bs.install.feature.ius" value="${bs.core.install.feature.ius.410}"/>
+        <postInstallActionProperty name="bs.p2.tag.uninstall.features" value="Studio Core Features Installation"/>
+        </postInstallAction>
+        </installerFeature>
+        
+        <installerFeature installLocation="${eclipse.p2.repos}" name="bs-core" uid="bs-core" version="4.1.200" visible="false">
+        <assemblyList>
+        <assembly overrideTargetDirectory="${eclipse.p2.repos}/assembly_tibco_com_tibco_xpd_core_feature_p2_4.0.1000" recordOnly="false" uid="assembly_tibco_com_tibco_xpd_core_feature_p2" version="4.0.1000.003"/>
+        <assembly overrideTargetDirectory="${eclipse.p2.repos}/assembly_tibco_com_tibco_xpd_deploy_feature_p2_4.0.1000" recordOnly="false" uid="assembly_tibco_com_tibco_xpd_deploy_feature_p2" version="4.0.1000.001"/>
+        <assembly overrideTargetDirectory="${eclipse.p2.repos}/assembly_tibco_com_tibco_xpd_service_feature_p2_4.0.1000" recordOnly="false" uid="assembly_tibco_com_tibco_xpd_service_feature_p2" version="4.0.1000.001"/>
+        <assembly overrideTargetDirectory="${eclipse.p2.repos}/assembly_tibco_com_tibco_xpd_scf_feature_p2_4.0.1000" recordOnly="false" uid="assembly_tibco_com_tibco_xpd_scf_feature_p2" version="4.0.1000.001"/>
+        </assemblyList>
+        <dependency description="Eclipse Luna Platform Projects (4.4)" mustBeInstalled="false" type="feature" uid="eclipse-platform-projects_bstudio" version="4.4.1"/>
+        </installerFeature>
+        <installerFeature installLocation="${eclipse.p2.repos}" name="bs-help" uid="bs-help" version="2.1.0" visible="false">
+        <assemblyList>
+        <assembly overrideTargetDirectory="${eclipse.p2.repos}/assembly_tibco_com_tibco_xpd_core_help_feature_p2_4.0.900" recordOnly="false" uid="assembly_tibco_com_tibco_xpd_core_help_feature_p2" version="4.0.900.001"/>
+        </assemblyList>
+        <dependency description="Eclipse Luna Platform Projects (4.4)" mustBeInstalled="false" type="feature" uid="eclipse-platform-projects_bstudio" version="4.4.1"/>
+        </installerFeature>
+        
+        <installerFeature installLocation="${eclipse.p2.repos}" name="eclipse-platform-projects" uid="eclipse-platform-projects" version="4.4.1" visible="false">
+        <assemblyList>
+        <assembly overrideTargetDirectory="${eclipse.p2.repos}/assembly_tibco_eclipse_dtp_1.12.0.001" recordOnly="false" uid="assembly_tibco_eclipse_dtp" version="1.12.0.001"/>
+        <assembly overrideTargetDirectory="${eclipse.p2.repos}/assembly_tibco_eclipse_emf_2.10.1.001" recordOnly="false" uid="assembly_tibco_eclipse_emf" version="2.10.1.001"/>
+        <assembly overrideTargetDirectory="${eclipse.p2.repos}/assembly_tibco_eclipse_gef_3.9.101.001" recordOnly="false" uid="assembly_tibco_eclipse_gef" version="3.9.101.001"/>
+        <assembly overrideTargetDirectory="${eclipse.p2.repos}/assembly_tibco_eclipse_wtp_p2_3.6.101.001" recordOnly="false" uid="assembly_tibco_eclipse_wtp_p2" version="3.6.101.001"/>
+        <assembly overrideTargetDirectory="${eclipse.p2.repos}/assembly_tibco_eclipse_birt_report_framework_p2_4.4.1.002" recordOnly="false" uid="assembly_tibco_eclipse_birt_report_framework_p2" version="4.4.1.002"/>
+        <assembly overrideTargetDirectory="${eclipse.p2.repos}/assembly_tibco_eclipse_emf_query_1.8.0.001" recordOnly="false" uid="assembly_tibco_eclipse_emf_query" version="1.8.0.001"/>
+        <assembly overrideTargetDirectory="${eclipse.p2.repos}/assembly_tibco_eclipse_emf_transaction_1.8.0.001" recordOnly="false" uid="assembly_tibco_eclipse_emf_transaction" version="1.8.0.001"/>
+        <assembly overrideTargetDirectory="${eclipse.p2.repos}/assembly_tibco_eclipse_emf_validation_1.8.0.001" recordOnly="false" uid="assembly_tibco_eclipse_emf_validation" version="1.8.0.001"/>
+        <assembly overrideTargetDirectory="${eclipse.p2.repos}/assembly_tibco_eclipse_gmf_1.8.1.001" recordOnly="false" uid="assembly_tibco_eclipse_gmf" version="1.8.1.001"/>
+        <assembly overrideTargetDirectory="${eclipse.p2.repos}/assembly_tibco_eclipse_gmf_notation_1.8.0.001" recordOnly="false" uid="assembly_tibco_eclipse_gmf_notation" version="1.8.0.001"/>
+        <assembly overrideTargetDirectory="${eclipse.p2.repos}/assembly_tibco_eclipse_mdt_ocl_p2_5.0.2.002" recordOnly="false" uid="assembly_tibco_eclipse_mdt_ocl_p2" version="5.0.2.002"/>
+        <assembly overrideTargetDirectory="${eclipse.p2.repos}/assembly_tibco_eclipse_mdt_uml_p2_5.0.1.002" recordOnly="false" uid="assembly_tibco_eclipse_mdt_uml_p2" version="5.0.1.002"/>
+        <assembly overrideTargetDirectory="${eclipse.p2.repos}/assembly_tibco_eclipse_emf_xsd_2.10.1.001" recordOnly="false" uid="assembly_tibco_eclipse_emf_xsd" version="2.10.1.001"/>
+        <assembly overrideTargetDirectory="${eclipse.p2.repos}/assembly_tibco_eclipse_ftp_webdav_3.2.2.006" recordOnly="false" uid="assembly_tibco_eclipse_ftp_webdav" version="3.2.2.006"/>
+        <assembly overrideTargetDirectory="${eclipse.p2.repos}/assembly_tibco_com_tibco_xpd_tpcl_org_apache_derby_feature_10.5.100.001" recordOnly="false" uid="assembly_tibco_com_tibco_xpd_tpcl_org_apache_derby_feature" version="10.5.100.001"/>
+        <assembly overrideTargetDirectory="${eclipse.p2.repos}/assembly_tibco_com_tibco_xpd_tpcl_oaw_lib_feature.4.3.1.003" recordOnly="false" uid="assembly_tibco_com_tibco_xpd_tpcl_oaw_lib_feature" version="4.3.1.003"/>
+        <assembly overrideTargetDirectory="${eclipse.p2.repos}/assembly_tibco_eclipse_oaw_p2_4.3.1.004" recordOnly="false" uid="assembly_tibco_eclipse_oaw_p2" version="4.3.1.004"/>
+        <assembly overrideTargetDirectory="${eclipse.p2.repos}/assembly_tibco_eclipse_subclipse_p2_1.8.22.002" uid="assembly_tibco_eclipse_subclipse_p2" version="1.8.22.002"/>
+        <assembly overrideTargetDirectory="${eclipse.p2.repos}/assembly_tibco_eclipse_svnkit_1.7.9.001" uid="assembly_tibco_eclipse_svnkit" version="1.7.9.001"/>
+        <assembly overrideTargetDirectory="${eclipse.p2.repos}/assembly_tibco_eclipse_yedit_p2_1.0.20.001" uid="assembly_tibco_eclipse_yedit_p2" version="1.0.20.001"/>
+        
+        </assemblyList>
+        <dependency description="Eclipse Indigo Platform (4.4)" mustBeInstalled="false" type="feature" uid="eclipse-platform_bstudio" version="4.4.1"/>
+    </installerFeature>
+        
+        
+        <installerFeature installLocation="$L{bs.product.repo.target.dir}" name="eclipse-platform" uid="eclipse-platform" version="4.4.1" visible="false">
+            
+            <wizardAction class="com.tibco.installer.wizard.action.TIBCODownloadAssemblyWizardAction" sequence="post-selection">
+            <property licenseFile="license.txt"/>
+            
+            <property filename="product_tibco_eclipse_lgpl_4.4.1.001_linux26gl25_x86_64.zip"/>
+            <property targetInstallFeature="eclipse-platform_bstudio"/>
+            <property assemblyUID="product_tibco_eclipse_lgpl"/>
+            <property assemblyVersion="4.4.1.001"/>
+            <property url="http://public.tibco.com/pub/tibco_oss/eclipse_lgpl"/>
+            <property installLocation="$L{bs.product.repo.target.dir}"/>
+            <property lgplAssemblyDisplayName="Gnome Binding"/>
+            </wizardAction>
+            
+            
+            
+            
+            
+            
+            
+            <assemblyList>
+            
+            <assembly overrideTargetDirectory="$L{bs.product.repo.target.dir}" recordOnly="false" uid="product_tibco_tbs_product_p2_repo" version="2.2.0.002"/>
+            
+            
+            <assembly overrideTargetDirectory="${tibco.tools.dir}" uid="product_tibco_p2_director" version="2.1.0.001"/>
+            </assemblyList>
+            
+            
+            
+            
+            
+            <dependency description="64bit Oracle JRE" type="feature" uid="main_tibcojava64-oracle" version="1.7.0"/>
+        </installerFeature>
+    </TIBCOInstallerFeatures>
