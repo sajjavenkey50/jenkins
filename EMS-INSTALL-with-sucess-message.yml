@@ -4,6 +4,11 @@
     become_user: ubuntu
     
     tasks:
+      - name: Copying to remote
+        copy:
+          src: /var/lib/jenkins/workspace/Ansible/TIB_BW_6.5.1_linux26gl23_x86_64
+          dest: /home/ubuntu/
+         
       - name: excuting EMSfile
         shell: ./EMS.sh
         ignore_errors: yes
